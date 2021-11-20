@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Tickets.Data;
+using Newtonsoft.Json.Converters;
 
 namespace Tickets.Services
 {
@@ -28,7 +29,10 @@ namespace Tickets.Services
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<TicketsContext>();
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options => 
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Tickets.Services", Version = "v1" });
